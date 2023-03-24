@@ -1,6 +1,6 @@
-# Node Code Examples
+# Code Template Samples
 
-Examples of some basic apps in NodeJS.
+Examples of some basic apps.
 
 ## Run
 

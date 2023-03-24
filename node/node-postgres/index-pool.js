@@ -4,7 +4,7 @@ const pool = new Pool({
     user: 'postgers_admin',
     host: 'dis-postgres.cgiy8on6k3vt.eu-central-1.rds.amazonaws.com',
     database: 'postgres',
-    password: '',
+    password: '7659u9423dy90D!',
     port: 5432
 });
 
@@ -25,3 +25,5 @@ pool
       throw err
     })
 );
+
+pool.end().then(console.log('pool has ended.'));
