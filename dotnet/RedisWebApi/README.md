@@ -1,5 +1,8 @@
 # RedisWebApi
 
+Example of .NET6 web app with Redis cache and PostgreSQL database.
+Source youtube: <https://www.youtube.com/watch?v=6HZVu3kGOrg&t=790s&ab_channel=MohamadLawand>
+
 ## Commands
 
 dotnet new webapi -n "RedisWebApi"
