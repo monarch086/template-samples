@@ -1,6 +1,6 @@
-const { Client } = require('pg');
+import pg from 'pg';
 
-const client = new Client({
+const client = new pg.Client({
     user: 'postgers_admin',
     host: 'dis-postgres.cgiy8on6k3vt.eu-central-1.rds.amazonaws.com',
     database: 'postgres',
