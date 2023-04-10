@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  stardog-server:
+    image: stardog/stardog
+    ports:
+      - 5820:5820
+    volumes:
+      - ./stardog-data:/var/opt/stardog
+    networks:
+      - sandbox
+
+  stardog-studio:
+    image: stardog/stardog-studio:current
+    ports:
+      - 5821:8080
+    networks:
+      - sandbox
+
+networks:
+  sandbox:
+    driver: bridge
