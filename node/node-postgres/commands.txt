@@ -1,0 +1,13 @@
+psql -U postgres
+
+psql -h localhost -p 5432 test-db -c "INSERT INTO users (id, age, firstname) VALUES (1, 25, 'Alex'); \
+ INSERT INTO users (id, age, firstname) VALUES (2, 31, 'Dana'); \
+ INSERT INTO users (id, age, firstname) VALUES (3, 54, 'Izumi');"
+
+psql -U postgers_admin -h dis-postgres.cgiy8on6k3vt.eu-central-1.rds.amazonaws.com -p 5432 postgres
+
+\d
+\d test;
+
+insert into test (id, t) values (1, 'data 1');
+select * from test;
