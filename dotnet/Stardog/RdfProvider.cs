@@ -1,8 +1,6 @@
 using System;
-using System.Linq;
 using VDS.RDF.Query;
 using VDS.RDF.Storage;
-using VDS.RDF.Storage.Management;
 
 namespace Stardog;
 
@@ -13,7 +11,7 @@ internal class RdfProvider
     const string STARDOG_PASSWORD = "admin";
     const string DATABASE_NAME = "resumes";
 
-    public void Read()
+    public void ReadCities()
     {
         using (var stardogConn = new StardogConnector(SERVER_URL, DATABASE_NAME, STARDOG_USERNAME, STARDOG_PASSWORD))
         {
@@ -24,6 +22,10 @@ internal class RdfProvider
                 foreach (SparqlResult r in rset)
                 {
                     Console.WriteLine("RESULT: {0}", r.ToString());
+
+                    Console.WriteLine("n: {0}", r["s"]);
+
+                    Console.WriteLine("NodeType: {0}", r["s"].NodeType);
                 }
             }
             else

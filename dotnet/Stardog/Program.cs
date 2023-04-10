@@ -10,7 +10,7 @@ namespace Stardog
 
             var rdfProvider = new RdfProvider();
 
-            rdfProvider.Read();
+            rdfProvider.ReadCities();
         }
     }
 }
