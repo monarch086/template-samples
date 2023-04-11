@@ -42,36 +42,24 @@ internal class RdfProvider
 
     public async Task InsertCity(string city, string cityName)
     {
-        using (var stardogConn = new StardogConnector(SERVER_URL, DATABASE_NAME, STARDOG_USERNAME, STARDOG_PASSWORD))
-        {
-            Graph g = new Graph();
+        Graph g = new Graph();
 
-            g.NamespaceMap.AddNamespace("rdf", new Uri("http://www.w3.org/1999/02/22-rdf-syntax-ns#"));
-            g.NamespaceMap.AddNamespace("tutorial", new Uri(Queries.NAMESPACE));
+        g.NamespaceMap.AddNamespace("rdf", new Uri("http://www.w3.org/1999/02/22-rdf-syntax-ns#"));
+        g.NamespaceMap.AddNamespace("tutorial", new Uri(Queries.NAMESPACE));
 
-            var rdfNs = g.NamespaceMap.GetNamespaceUri("rdf");
-            var tutorialNs = g.NamespaceMap.GetNamespaceUri("tutorial");
+        var rdfNs = g.NamespaceMap.GetNamespaceUri("rdf");
+        var tutorialNs = g.NamespaceMap.GetNamespaceUri("tutorial");
 
-            g.CreateUriNode(new Uri(Queries.NAMESPACE + city));
+        INode s = g.CreateUriNode(new Uri(tutorialNs + city));
+        INode p = g.CreateUriNode(new Uri(rdfNs + "type"));
+        INode o = g.CreateUriNode(new Uri(tutorialNs + "City"));
 
-            INode s = g.CreateUriNode(new Uri(tutorialNs + city));
-            INode p = g.CreateUriNode(new Uri(rdfNs + "type"));
-            INode o = g.CreateUriNode(new Uri(tutorialNs + "City"));
+        await AddTripple(g, s, p, o);
 
-            Triple triple = new Triple(s, p, o);
-            g.Assert(triple);
+        p = g.CreateUriNode(new Uri(tutorialNs + "hasName"));
+        o = g.CreateLiteralNode(cityName);
 
-            p = g.CreateUriNode(new Uri(tutorialNs + "hasName"));
-            o = g.CreateLiteralNode(cityName);
-
-            triple = new Triple(s, p, o);
-            g.Assert(triple);
-
-            if (!stardogConn.IsReadOnly)
-            {
-                await stardogConn.SaveGraphAsync(g, default);
-            }
-        }
+        await AddTripple(g, s, p, o);
     }
 
     public string GetCity(string cityName)
@@ -88,6 +76,20 @@ internal class RdfProvider
             else
             {
                 throw new Exception("Result was not a SPARQL result set");
+            }
+        }
+    }
+
+    private async Task AddTripple(Graph g, INode s, INode p, INode o)
+    {
+        using (var stardogConn = new StardogConnector(SERVER_URL, DATABASE_NAME, STARDOG_USERNAME, STARDOG_PASSWORD))
+        {
+            var triple = new Triple(s, p, o);
+            g.Assert(triple);
+
+            if (!stardogConn.IsReadOnly)
+            {
+                await stardogConn.SaveGraphAsync(g, default);
             }
         }
     }
