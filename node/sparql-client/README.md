@@ -14,6 +14,8 @@ INSERT INTO cities (name) VALUES ('Kyiv'), ('Kharkiv'), ('Lviv'), ('Odessa'), ('
 
 ### Generate mapping for data model
 
+#### Mapping for local server
+
 ````bash
 generate-mapping [-u user] [-p password] [-d driver]
         [-l script.sql] [--[skip-](schemas|tables|columns) list]
@@ -23,10 +25,24 @@ generate-mapping [-u user] [-p password] [-d driver]
 generate-mapping -o mapping.ttl -d org.postgresql.Driver -u postgres -p postgres jdbc:postgresql://localhost:5432/postgres
 ````
 
+#### Mapping for remote server
+
+````bash
+generate-mapping -o mapping-remote.ttl -d org.postgresql.Driver -u postgers_admin -p db-password jdbc:postgresql://dis-postgres.cgiy8on6k3vt.eu-central-1.rds.amazonaws.com:5432/postgres
+````
+
 ### Start D2RQ server
+
+#### Local server
 
 ````bash
 d2r-server mapping.ttl
+````
+
+#### Remote server
+
+````bash
+d2r-server --port 2021 mapping-remote.ttl
 ````
 
 In case of this issue: 'Invalid version number: Version number may be negative or greater than 255' update icu4j.jar with the latest version (<https://icu.unicode.org/>).
