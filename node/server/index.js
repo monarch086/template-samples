@@ -1,7 +1,7 @@
 import http from "http"
 
 const hostname = "127.0.0.1";
-const port = 8080;
+const port = 9000;
 
 const server = http.createServer();
 
@@ -9,8 +9,12 @@ server.on("request", (req, res) =>
     {
         console.log("request: ", req.url);
 
-        res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.write("hello from NodeJs");
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        //res.write("{\"text\": \"hello from NodeJs\"}");
+        
+        const obj = {text: "hello from NodeJs"};
+        res.write(JSON.stringify(obj));
+        
         res.end();
     });
 
