@@ -16,6 +16,7 @@
 # Custom files
 *.bin
 package-lock.json
+config.js
 
 # Custom folders
 stardog-data/

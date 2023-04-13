@@ -1,11 +1,12 @@
 import pg from 'pg';
+import { DB_CONFIG } from './config.js';
 
 const client = new pg.Client({
-    user: 'postgers_admin',
-    host: 'dis-postgres.cgiy8on6k3vt.eu-central-1.rds.amazonaws.com',
-    database: 'postgres',
-    password: '',
-    port: 5432
+    user: DB_CONFIG.user,
+    host: DB_CONFIG.host,
+    database: DB_CONFIG.database,
+    password: DB_CONFIG.password,
+    port: DB_CONFIG.port
 });
 
 async function selectAllCities() {
