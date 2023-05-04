@@ -18,6 +18,9 @@ async function run() {
         const firstDocumentId = results[0]._id.toString();
         console.log('First document id = ', firstDocumentId);
 
+        const timestamp = results[0]._id.getTimestamp();
+        console.log('First document timestamp = ', timestamp);
+
         var objectId = new ObjectId(firstDocumentId);
         const firstObject = await collection.findOne({_id: objectId});
         console.table(firstObject);
