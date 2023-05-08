@@ -1,3 +1,4 @@
+# run: docker compose -f redis-docker-compose.yml -p "redis-stack" up -d
 version: '3.8'
 services:
   redis:
@@ -5,7 +6,7 @@ services:
    # restart: always
     ports:
       - '6379:6379'
-    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    command: redis-server --save 20 1 --loglevel warning
     volumes: 
       - cache:/data
 volumes:
