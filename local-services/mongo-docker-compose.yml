@@ -1,3 +1,4 @@
+# run: docker compose -f mongo-docker-compose.yml -p "mongo-stack" up -d
 version: '3.8'
 services:
   mongodb:
