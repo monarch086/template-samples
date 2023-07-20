@@ -20,6 +20,7 @@ config.js
 
 # Custom folders
 stardog-data/
+pg-data/
 
 # Mono auto generated files
 mono_crash.*
