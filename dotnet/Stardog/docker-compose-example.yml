@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  stardog-server:
+    image: stardog/stardog:8.0.0-java11-preview
+    ports:
+      - 5820:5820
+    volumes:
+      - stardog-data:/var/opt/stardog
+    networks:
+      - sandbox
+    depends_on:
+      - stardog-data
+    restart: always
+
+  stardog-studio:
+    image: stardog/stardog-studio:current
+    ports:
+      - 5821:8080
+    networks:
+      - sandbox
+    restart: always
+  
+  sparql-endpoint:
+    image: uv-sparql-service # uv-sparql-service image name
+    ports:
+      - 5822:5000
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      Sources__Items__0__Id: "aloka"
+      Sources__Items__0__Server: "http://stardog-server:5820"
+      Sources__Items__0__DbName: "uv-tenant-test"
+      Sources__Items__0__Username: "admin"
+      Sources__Items__0__Password: "admin"
+      Sources__Items__1__Id: "tenant-1"
+      Sources__Items__1__Server: "http://stardog-server:5820"
+      Sources__Items__1__DbName: "uv-golden-pdf"
+      Sources__Items__1__Username: "admin"
+      Sources__Items__1__Password: "admin"
+    networks:
+      - sandbox
+    depends_on:
+      - stardog-server
+    restart: always
+
+  stardog-data:
+    image: image-name # uv-dev-graph image name
+    command: "ls /var/opt/stardog"
+    volumes:
+      - type: volume
+        source: stardog-data
+        target: /var/opt/stardog
+        volume:
+          nocopy: false
+
+volumes:
+  stardog-data:
+
+networks:
+  sandbox:
+    driver: bridge
