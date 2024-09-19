@@ -17,10 +17,12 @@
 *.bin
 package-lock.json
 config.js
+.terraform.*
 
 # Custom folders
 stardog-data/
 pg-data/
+.terraform/
 
 # Mono auto generated files
 mono_crash.*
