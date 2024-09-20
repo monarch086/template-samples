@@ -46,6 +46,13 @@ builder.Services.AddAuthorization(options =>
 
 var app = builder.Build();
 
+// Apply EF Core migrations programmatically
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+    dbContext.Database.Migrate();
+}
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
