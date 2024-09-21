@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -35,7 +36,13 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 // NB: Authentication
 builder.Services.AddAuthorization();
-builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+builder.Services.AddIdentityApiEndpoints<IdentityUser>(opt =>
+{
+    opt.Password.RequiredLength = 8;
+    opt.User.RequireUniqueEmail = true;
+    opt.Password.RequireNonAlphanumeric = false;
+    opt.SignIn.RequireConfirmedEmail = false;
+})
     .AddEntityFrameworkStores<DataContext>();
 
 builder.Services.AddAuthorization(options =>
@@ -43,6 +50,9 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("WeatherPolicy", policy =>
         policy.RequireRole("WeatherUser"));  // Example role-based policy
 });
+
+builder.Services.AddDataProtection()
+    .PersistKeysToDbContext<DataContext>();
 
 var app = builder.Build();
 
