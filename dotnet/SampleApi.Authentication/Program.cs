@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using SampleApi.Authentication.Data;
 using Swashbuckle.AspNetCore.Filters;
@@ -43,7 +44,9 @@ builder.Services.AddIdentityApiEndpoints<IdentityUser>(opt =>
     opt.Password.RequireNonAlphanumeric = false;
     opt.SignIn.RequireConfirmedEmail = false;
 })
-    .AddEntityFrameworkStores<DataContext>();
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<DataContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddAuthorization(options =>
 {
@@ -59,8 +62,18 @@ var app = builder.Build();
 // Apply EF Core migrations programmatically
 using (var scope = app.Services.CreateScope())
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
-    dbContext.Database.Migrate();
+    try
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+        dbContext.Database.Migrate();
+
+        var services = scope.ServiceProvider;
+        await SeedData.InitializeAsync(services);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"An error occurred seeding the DB: {ex.Message}");
+    }
 }
 
 app.UseSwagger();
@@ -89,7 +102,7 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast")
 .WithOpenApi()
-.RequireAuthorization(); // "WeatherPolicy"
+.RequireAuthorization("WeatherPolicy");
 
 app.Run();
 
