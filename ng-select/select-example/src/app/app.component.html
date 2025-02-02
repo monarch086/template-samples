@@ -350,6 +350,16 @@
 
   </div>
 
+  <div style="width: 200px">
+    <ng-select [items]="cars"
+      bindLabel="name"
+      bindValue="id"
+      [(ngModel)]="selectedCar"
+      [multiple]="true"
+      [closeOnSelect]="false">
+    </ng-select>
+  </div>
+
   <!-- Resources -->
   <h2>Resources</h2>
   <p>Here are some links to help you get started:</p>
