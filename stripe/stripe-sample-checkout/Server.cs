@@ -76,6 +76,7 @@ namespace server.Controllers
                 ClientReferenceId = "cus_QfjiPhoEjqVkfK",
                // Currency = "usd"
                // PaymentIntentData
+               //PaymentMethodConfiguration
                
             };
             var service = new SessionService();
