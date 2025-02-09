@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NgSelectComponent } from '@ng-select/ng-select';
+import { NgSelectComponent, NgOptionComponent, } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
   imports: [
     RouterOutlet,
     NgSelectComponent,
+    NgOptionComponent,
     FormsModule
   ],
   templateUrl: './app.component.html',

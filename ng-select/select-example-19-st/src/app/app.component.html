@@ -228,12 +228,13 @@
       <h1>Hello, {{ title }}</h1>
       <p>Congratulations! Your app is running. 🎉</p>
       <div style="width: 200px; margin-top: 16px">
-        <ng-select [items]="cars"
-          bindLabel="name"
-          bindValue="id"
+        <ng-select
           [(ngModel)]="selectedCar"
           [multiple]="true"
           [closeOnSelect]="false">
+          @for (car of cars; track car.id) {
+            <ng-option [value]="car.id">{{car.name}}</ng-option>
+          }
         </ng-select>
       </div>
     </div>
